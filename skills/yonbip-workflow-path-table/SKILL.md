@@ -68,10 +68,11 @@ After confirmation, use the conversion script to generate Excel file.
 **Usage:**
 
 ```bash
-python ${SKILL_DIR}/scripts/md_to_excel.py <input.md> <output.xlsx> --condition-cols <N>
+python3 ${SKILL_DIR}/scripts/md_to_excel.py <input.md> <output.xlsx> --condition-cols <N>
 ```
 
 **Parameters:**
+
 - `--condition-cols N`: 指定前 N 列为"条件"列（如：费用类型、金额区间），其余列为"环节"列（审批角色）
 
 The script will:
