@@ -19,6 +19,8 @@ Converts natural language business approval workflow descriptions into YonBIP-st
 
 ## Workflow
 
+**Dry Run Mode**: If user specifies `--dryrun` flag, skip user confirmation and Excel generation, only output the markdown table.
+
 ### Step 1: Extract and Structure
 
 Analyze the natural language and identify:
@@ -62,6 +64,8 @@ Wait for approval or modifications.
 ### Step 4: Generate Excel
 
 After confirmation, use the conversion script to generate Excel file.
+
+write the markdown file to same folder of the Excel file.
 
 **Script location:** `scripts/md_to_excel.py` (within this skill directory)
 
