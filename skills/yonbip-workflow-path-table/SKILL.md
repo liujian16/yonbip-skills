@@ -19,7 +19,59 @@ Converts natural language business approval workflow descriptions into YonBIP-st
 
 ## Workflow
 
-**Dry Run Mode**: If user specifies `--dryrun` flag, skip user confirmation and Excel generation, only output the markdown table.
+**Dry Run Mode**: If user specifies `--dryrun` flag:
+- Skip Step 0 (clarification)
+- Skip Step 4 (Excel generation)
+- Only output the markdown table
+
+### Step 0: Understand and Clarify (理解与澄清)
+
+**Skip in --dryrun mode**: If the `--dryrun` flag is set, skip this entire step and proceed directly to Step 1.
+
+After receiving the user's approval rules, first analyze the content:
+
+1. **Understand**: Parse the natural language and identify:
+   - The main business scenario (费用类型、采购类型等)
+   - Key conditions mentioned (金额区间、供应商类型等)
+   - Approval roles and their sequences
+
+2. **Check for Ambiguities**: Determine if the rules are complete and unambiguous:
+   - Incomplete condition coverage (是否有遗漏的场景?)
+   - Unclear role definitions (角色名称是否明确?)
+   - Boundary conditions not specified (边界值如何处理?)
+   - Multiple interpretations possible (是否有歧义?)
+
+3. **Decision Point**:
+   - **If rules are clear**: Skip directly to Step 1 (no user interaction needed)
+   - **If ambiguities exist**: Proceed to clarification
+
+4. **Interactive Clarification** (only if ambiguities exist):
+   - First, present your understanding of the rules
+   - Then, ask specific questions using AskUserQuestion tool:
+     - Present specific questions with clear options
+     - Allow "Other" for custom input
+     - Wait for user response before proceeding
+   - Example: "我理解您的规则是...，但有以下疑问：..."
+
+5. **Proceed to Step 1**: Once the rules are clear (either no ambiguities or user has clarified), proceed to extract and structure the data.
+
+**Typical scenarios requiring clarification:**
+
+1. **条件覆盖不完整**：
+   - 规则："1000元以下走A，5000元以上走B"
+   - 问题："1000-5000元之间如何处理？"
+
+2. **角色不明确**：
+   - 规则："主管审批"
+   - 问题："是部门主管还是业务主管？"
+
+3. **边界值歧义**：
+   - 规则："1000元以下"和"1000-5000元"
+   - 问题："正好1000元走哪条路径？"
+
+4. **默认值/兜底规则**：
+   - 规则：只说明了特定场景
+   - 问题："其他未说明的场景如何处理？"
 
 ### Step 1: Extract and Structure
 
