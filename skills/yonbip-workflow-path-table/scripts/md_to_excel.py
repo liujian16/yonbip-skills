@@ -112,24 +112,29 @@ def generate_excel(
     # ===== Step 1: Write explanation row (条件 | 环节) =====
     # 只有当 condition_cols > 0 且 < len(headers) 时才添加说明行
     if condition_cols > 0 and condition_cols < len(headers):
-        # Merge "条件" cells (columns 1 to condition_cols)
+        # 先为"条件"区域的每个单元格设置值和样式（绕过 openpyxl 合并后清空值的缺陷）
+        for col_idx in range(1, condition_cols + 1):
+            cell = ws.cell(row=current_row, column=col_idx, value='条件')
+            cell.font = header_font
+            cell.fill = header_fill
+            cell.alignment = header_alignment
+            cell.border = thin_border
+
+        # 先为"环节"区域的每个单元格设置值和样式
+        for col_idx in range(condition_cols + 1, len(headers) + 1):
+            cell = ws.cell(row=current_row, column=col_idx, value='环节')
+            cell.font = header_font
+            cell.fill = header_fill
+            cell.alignment = header_alignment
+            cell.border = thin_border
+
+        # 然后再执行合并操作（openpyxl 会保留已设置的值）
         cond_end_col = column_letter(condition_cols)
         ws.merge_cells(f'A{current_row}:{cond_end_col}{current_row}')
-        cell = ws.cell(row=current_row, column=1, value='条件')
-        cell.font = header_font
-        cell.fill = header_fill
-        cell.alignment = header_alignment
-        cell.border = thin_border
 
-        # Merge "环节" cells (columns condition_cols+1 to end)
         link_start_col = column_letter(condition_cols + 1)
         link_end_col = column_letter(len(headers))
         ws.merge_cells(f'{link_start_col}{current_row}:{link_end_col}{current_row}')
-        cell = ws.cell(row=current_row, column=condition_cols + 1, value='环节')
-        cell.font = header_font
-        cell.fill = header_fill
-        cell.alignment = header_alignment
-        cell.border = thin_border
 
         current_row += 1
 
