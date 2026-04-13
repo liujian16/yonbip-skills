@@ -3,7 +3,7 @@
 ## 步骤 4.1：CLI验证
 
 ```bash
-yonyoucloud-cli workflow path-table-detail --excel-id <excelId> --source <source>
+bip-cli workflow path-table-detail --excel-id <excelId> --source <source>
 ```
 
 检查列元信息、绑定状态、表格数据。
@@ -11,7 +11,7 @@ yonyoucloud-cli workflow path-table-detail --excel-id <excelId> --source <source
 ## 步骤 4.2：浏览器验证
 
 ```bash
-yonyoucloud-cli workflow --env <环境> path-open --excel-id <excelId> --source <source>
+bip-cli workflow path-open --excel-id <excelId> --source <source>
 ```
 
 在浏览器中检查：
